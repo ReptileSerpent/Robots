@@ -16,7 +16,7 @@ public class RobotsProgram
       } catch (Exception e) {
         e.printStackTrace();
       }
-      SwingUtilities.invokeLater(() -> {
+      SwingUtilities.invokeLater(() -> {        //создали интерфейсный поток swing'а
         MainApplicationFrame frame = new MainApplicationFrame();
         frame.pack();
         frame.setVisible(true);
