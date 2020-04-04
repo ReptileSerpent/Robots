@@ -2,7 +2,10 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.function.Consumer;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import javax.swing.*;
 
@@ -41,6 +44,20 @@ public class MainApplicationFrame extends JFrame
                 promptAboutWindowClosing();
             }
         });
+
+        try
+        {
+            var frameStates = DesktopPaneState.ReadFromFile(desktopPane);
+            DesktopPaneState.ModifyDesktopPaneState(desktopPane, frameStates);
+        }
+        catch (FileNotFoundException ignored) {}
+        catch (IOException e)
+        {
+            JOptionPane.showMessageDialog(null,
+                    "Ошибка при чтении файла конфигурации окон: " + e + "\nПосле нажатия ОК вы сможете продолжить работу.",
+                    "Ошибка при чтении файла.",
+                    JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     private void promptAboutWindowClosing()
@@ -59,8 +76,20 @@ public class MainApplicationFrame extends JFrame
             case 0:     //cancel
                 break;
             case 1:     //exit
+            {
+                try
+                {
+                    DesktopPaneState.WriteToFile(desktopPane);
+                } catch (IOException e)
+                {
+                    JOptionPane.showMessageDialog(null,
+                        "Ошибка при создании файла конфигурации окон: " + e + "\nПосле нажатия ОК приложение будет закрыто.",
+                        "Ошибка при создании файла.",
+                        JOptionPane.WARNING_MESSAGE);
+                }
                 System.exit(0);
                 break;
+            }
         }
     }
 
