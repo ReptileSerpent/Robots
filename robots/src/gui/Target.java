@@ -5,13 +5,30 @@ import java.awt.geom.AffineTransform;
 
 public class Target
 {
-    public static volatile int m_positionX = 150;
-    public static volatile int m_positionY = 100;
+    private static volatile int _positionX = 150;
+    public static int getPositionX()
+    {
+        return _positionX;
+    }
+    public static void setPositionX(int positionX)
+    {
+        _positionX = positionX;
+    }
+
+    private static volatile int _positionY = 100;
+    public static int getPositionY()
+    {
+        return _positionY;
+    }
+    public static void setPositionY(int positionY)
+    {
+        _positionY = positionY;
+    }
 
     public static void setPosition(Point p)
     {
-        m_positionX = p.x;
-        m_positionY = p.y;
+        setPositionX(p.x);
+        setPositionY(p.y);
     }
 
     public static void draw(Graphics2D g, int x, int y)

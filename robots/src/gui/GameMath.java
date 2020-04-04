@@ -1,7 +1,10 @@
 package gui;
 
-public class GameMath
+public final class GameMath
 {
+    private GameMath()
+    {}
+
     public static final double maxVelocity = 0.1;
     public static final double maxAngularVelocity = 0.001;
 

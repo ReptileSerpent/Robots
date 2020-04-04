@@ -73,21 +73,21 @@ public class GameVisualizer extends JPanel
     
     protected void onModelUpdateEvent()
     {
-        double distance = distance(Target.m_positionX, Target.m_positionY,
-                Robot.m_positionX, Robot.m_positionY);
+        double distance = distance(Target.getPositionX(), Target.getPositionY(),
+                Robot.getPositionX(), Robot.getPositionY());
         if (distance < 0.5)
         {
             return;
         }
         double velocity = maxVelocity;
-        double angleToTarget = angleTo(Robot.m_positionX, Robot.m_positionY,
-                Target.m_positionX, Target.m_positionY);
+        double angleToTarget = angleTo(Robot.getPositionX(), Robot.getPositionY(),
+                Target.getPositionX(), Target.getPositionY());
         double angularVelocity = 0;
-        if (angleToTarget > Robot.m_direction)
+        if (angleToTarget > Robot.getDirection())
         {
             angularVelocity = maxAngularVelocity;
         }
-        if (angleToTarget < Robot.m_direction)
+        if (angleToTarget < Robot.getDirection())
         {
             angularVelocity = -maxAngularVelocity;
         }
@@ -100,7 +100,7 @@ public class GameVisualizer extends JPanel
     {
         super.paint(g);
         Graphics2D g2d = (Graphics2D)g; 
-        Robot.draw(g2d, round(Robot.m_positionX), round(Robot.m_positionY), Robot.m_direction);
-        Target.draw(g2d, Target.m_positionX, Target.m_positionY);
+        Robot.draw(g2d, round(Robot.getPositionX()), round(Robot.getPositionY()), Robot.getDirection());
+        Target.draw(g2d, Target.getPositionX(), Target.getPositionY());
     }
 }
