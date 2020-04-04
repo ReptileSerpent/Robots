@@ -12,20 +12,32 @@ public class DesktopPaneState
     {
         var file = new File(System.getProperty("user.home") + "/RobotsDesktopPaneState.txt");
         var outputStream = new FileOutputStream(file);
-        var dataOutputStream = new DataOutputStream(new BufferedOutputStream(outputStream));
-        for (var frame : desktopPane.getAllFrames())
+        try
         {
-            dataOutputStream.writeUTF(frame.getTitle());
-            dataOutputStream.writeInt(frame.getX());
-            dataOutputStream.writeInt(frame.getY());
-            dataOutputStream.writeInt(frame.getWidth());
-            dataOutputStream.writeInt(frame.getHeight());
-            dataOutputStream.writeBoolean(frame.isSelected());
-            dataOutputStream.writeBoolean(frame.isMaximum());
-            dataOutputStream.writeBoolean(frame.isIcon());
+            var dataOutputStream = new DataOutputStream(new BufferedOutputStream(outputStream));
+            try
+            {
+                for (var frame : desktopPane.getAllFrames()) {
+                    dataOutputStream.writeUTF(frame.getTitle());
+                    dataOutputStream.writeInt(frame.getX());
+                    dataOutputStream.writeInt(frame.getY());
+                    dataOutputStream.writeInt(frame.getWidth());
+                    dataOutputStream.writeInt(frame.getHeight());
+                    dataOutputStream.writeBoolean(frame.isSelected());
+                    dataOutputStream.writeBoolean(frame.isMaximum());
+                    dataOutputStream.writeBoolean(frame.isIcon());
+                }
+            }
+            finally
+            {
+                dataOutputStream.close();
+            }
         }
-        dataOutputStream.close();
-        outputStream.close();
+        finally
+        {
+            outputStream.close();
+        }
+
     }
 
     public static HashMap<String, FrameState> ReadFromFile(JDesktopPane desktopPane) throws IOException

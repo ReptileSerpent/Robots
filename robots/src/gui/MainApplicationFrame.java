@@ -83,8 +83,8 @@ public class MainApplicationFrame extends JFrame
                 } catch (IOException e)
                 {
                     JOptionPane.showMessageDialog(null,
-                        "Ошибка при создании файла конфигурации окон: " + e + "\nПосле нажатия ОК приложение будет закрыто.",
-                        "Ошибка при создании файла.",
+                        "Ошибка при записи файла конфигурации окон: " + e + "\nПосле нажатия ОК приложение будет закрыто.",
+                        "Ошибка при записи файла.",
                         JOptionPane.WARNING_MESSAGE);
                 }
                 System.exit(0);
