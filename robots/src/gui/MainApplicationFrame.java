@@ -19,7 +19,7 @@ public class MainApplicationFrame extends JFrame
     {
         super("Робот");
         int inset = 50;
-        Dimension screenSize = new Dimension(500, 500); //Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds(inset, inset,
             screenSize.width  - inset*2,
             screenSize.height - inset*2);
@@ -50,12 +50,11 @@ public class MainApplicationFrame extends JFrame
             var frameStates = DesktopPaneState.ReadFromFile(desktopPane);
             DesktopPaneState.ModifyDesktopPaneState(desktopPane, frameStates);
         }
-        catch (FileNotFoundException ignored) {}
         catch (IOException e)
         {
             JOptionPane.showMessageDialog(null,
-                    "Ошибка при чтении файла конфигурации окон: " + e + "\nПосле нажатия ОК вы сможете продолжить работу.",
-                    "Ошибка при чтении файла.",
+                    "Ошибка при чтении файла конфигурации: " + e + "\nПосле нажатия ОК вы сможете продолжить работу. Будет загружена конфигурация по умолчанию.",
+                    "Ошибка при чтении файла конфигурации",
                     JOptionPane.WARNING_MESSAGE);
         }
     }
@@ -77,19 +76,43 @@ public class MainApplicationFrame extends JFrame
                 break;
             case 1:     //exit
             {
+                var shouldExit = true;
                 try
                 {
                     DesktopPaneState.WriteToFile(desktopPane);
-                } catch (IOException e)
-                {
-                    JOptionPane.showMessageDialog(null,
-                        "Ошибка при записи файла конфигурации окон: " + e + "\nПосле нажатия ОК приложение будет закрыто.",
-                        "Ошибка при записи файла.",
-                        JOptionPane.WARNING_MESSAGE);
                 }
-                System.exit(0);
+                catch (IOException e)
+                {
+                    shouldExit = askAboutClosingAfterConfigWriteFailure(e);
+                }
+                if (shouldExit)
+                    System.exit(0);
                 break;
             }
+        }
+    }
+
+    private boolean askAboutClosingAfterConfigWriteFailure(IOException e)
+    {
+        var message = "Ошибка при записи файла конфигурации: " + e + "\nВы можете завершить закрытие приложения или отменить его и попытаться устранить проблему с сохранением.";
+
+        int userChoice = JOptionPane.showOptionDialog(null,
+                message,
+                "Ошибка при записи файла конфигурации",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null,
+                new String[] { "Отмена", "Закрыть" },
+                "Отмена");
+
+        switch (userChoice)
+        {
+            case 0:     //cancel
+                return false;
+            case 1:     //exit
+                return true;
+            default:
+                return false;
         }
     }
 
