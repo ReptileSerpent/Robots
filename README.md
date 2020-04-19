@@ -1,10 +1,10 @@
 # Robots
 The project to learn OO design concepts and MDI application development in Java
 
-Скриншот для третьего задания:
+**Скриншот для третьего задания:**\
 ![example 5](docs/screenshot5.png)
 
-Скриншоты для второго задания:
+**Скриншоты для второго задания:**
 
 После chmod 000 на файл конфига:
 ![example 3](docs/screenshot3.png)
@@ -12,7 +12,7 @@ The project to learn OO design concepts and MDI application development in Java
 После truncate -s 30 на файл конфига:
 ![example 4](docs/screenshot4.png)
 
-Скриншоты для первого задания:
+**Скриншоты для первого задания:**
 
 ![example 1](docs/screenshot1.png)
 
