@@ -1,6 +1,9 @@
 # Robots
 The project to learn OO design concepts and MDI application development in Java
 
+Скриншот для третьего задания:
+![example 5](docs/screenshot5.png)
+
 Скриншоты для второго задания:
 
 После chmod 000 на файл конфига:

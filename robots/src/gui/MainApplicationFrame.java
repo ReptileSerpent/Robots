@@ -2,10 +2,8 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Observer;
 
 import javax.swing.*;
 
@@ -25,17 +23,24 @@ public class MainApplicationFrame extends JFrame
             screenSize.height - inset*2);
 
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
         setContentPane(desktopPane);
+        setJMenuBar(MenuBar.generateMenuBar(this));
+
+        RobotModel robotModel = new RobotModel();
+        RobotView robotView = new RobotView();
+        RobotController robotController = new RobotController(robotModel, robotView);
 
         LogWindow logWindow = createLogWindow();
         addWindow(logWindow);
 
-        GameWindow gameWindow = new GameWindow();
+        GameWindow gameWindow = new GameWindow(robotController);
         gameWindow.setSize(400,  400);
         addWindow(gameWindow);
 
-        setJMenuBar(MenuBar.generateMenuBar(this));
+        RobotInformationWindow robotInformationWindow = new RobotInformationWindow();
+        addWindow(robotInformationWindow);
+
+        robotModel.addObserver(robotInformationWindow);
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -45,6 +50,11 @@ public class MainApplicationFrame extends JFrame
             }
         });
 
+        TryToReadFrameStatesFromFile();
+    }
+
+    private void TryToReadFrameStatesFromFile()
+    {
         try
         {
             var frameStates = DesktopPaneState.ReadFromFile(desktopPane);

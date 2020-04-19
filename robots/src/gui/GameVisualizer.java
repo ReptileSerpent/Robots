@@ -13,6 +13,8 @@ import static gui.GameMath.*;
 
 public class GameVisualizer extends JPanel
 {
+    private RobotController robotController;
+
     private final Timer m_timer = initTimer();
     
     private static Timer initTimer() 
@@ -21,8 +23,10 @@ public class GameVisualizer extends JPanel
         return timer;
     }
     
-    public GameVisualizer() 
+    public GameVisualizer(RobotController robotController)
     {
+        this.robotController = robotController;
+
         m_timer.schedule(new TimerTask()
         {
             @Override
@@ -74,25 +78,25 @@ public class GameVisualizer extends JPanel
     protected void onModelUpdateEvent()
     {
         double distance = distance(Target.getPositionX(), Target.getPositionY(),
-                Robot.getPositionX(), Robot.getPositionY());
+                robotController.getPositionX(), robotController.getPositionY());
         if (distance < 0.5)
         {
             return;
         }
         double velocity = maxVelocity;
-        double angleToTarget = angleTo(Robot.getPositionX(), Robot.getPositionY(),
+        double angleToTarget = angleTo(robotController.getPositionX(), robotController.getPositionY(),
                 Target.getPositionX(), Target.getPositionY());
         double angularVelocity = 0;
-        if (angleToTarget > Robot.getDirection())
+        if (angleToTarget > robotController.getDirection())
         {
             angularVelocity = maxAngularVelocity;
         }
-        if (angleToTarget < Robot.getDirection())
+        if (angleToTarget < robotController.getDirection())
         {
             angularVelocity = -maxAngularVelocity;
         }
-        
-        Robot.move(velocity, angularVelocity, 10);
+
+        robotController.move(velocity, angularVelocity, 10);
     }
     
     @Override
@@ -100,7 +104,7 @@ public class GameVisualizer extends JPanel
     {
         super.paint(g);
         Graphics2D g2d = (Graphics2D)g; 
-        Robot.draw(g2d, round(Robot.getPositionX()), round(Robot.getPositionY()), Robot.getDirection());
+        robotController.draw(g2d);
         Target.draw(g2d, Target.getPositionX(), Target.getPositionY());
     }
 }
