@@ -87,7 +87,6 @@ public class GameVisualizer extends JPanel
         double angleToTarget = angleTo(robotController.getPositionX(), robotController.getPositionY(),
                 Target.getPositionX(), Target.getPositionY());
         double angularVelocity = 0;
-        System.out.println("angle:" + angleToTarget + " direction:" + robotController.getDirection());
         if (angleToTarget > robotController.getDirection() + 0.01)      // accounting for direction error
         {
             angularVelocity = maxAngularVelocity;
