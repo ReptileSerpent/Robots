@@ -43,23 +43,22 @@ public class RobotModel extends Observable
         velocity = applyLimits(velocity, 0, maxVelocity);
         angularVelocity = applyLimits(angularVelocity, -maxAngularVelocity, maxAngularVelocity);
 
-        double newX = getPositionX() + velocity / angularVelocity *
-                (Math.sin(getDirection() + angularVelocity * duration) -
-                        Math.sin(getDirection()));
-        if (!Double.isFinite(newX))
+        var newX = _positionX;
+        var newY = _positionY;
+        var newDirection = _direction;
+
+        if (angularVelocity == 0)
         {
-            newX = getPositionX() + velocity * duration * Math.cos(getDirection());
+            newX = _positionX + velocity * duration * Math.cos(_direction);
+            newY = _positionY + velocity * duration * Math.sin(_direction);
         }
-        double newY = getPositionY() - velocity / angularVelocity *
-                (Math.cos(getDirection() + angularVelocity * duration) -
-                        Math.cos(getDirection()));
-        if (!Double.isFinite(newY))
+        else
         {
-            newY = getPositionY() + velocity * duration * Math.sin(getDirection());
+            newDirection = asNormalizedRadians(_direction + angularVelocity * duration);
         }
+
         setPositionX(newX);
         setPositionY(newY);
-        double newDirection = asNormalizedRadians(getDirection() + angularVelocity * duration);
         setDirection(newDirection);
 
         setChanged();

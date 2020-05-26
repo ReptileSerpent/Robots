@@ -28,12 +28,14 @@ public class MainApplicationFrame extends JFrame
 
         RobotModel robotModel = new RobotModel();
         RobotView robotView = new RobotView();
-        RobotController robotController = new RobotController(robotModel, robotView);
+        RobotController robotController = RobotController.getInstance();
+        robotController.setRobotModel(robotModel);
+        robotController.setRobotView(robotView);
 
         LogWindow logWindow = createLogWindow();
         addWindow(logWindow);
 
-        GameWindow gameWindow = new GameWindow(robotController);
+        GameWindow gameWindow = new GameWindow();
         gameWindow.setSize(400,  400);
         addWindow(gameWindow);
 

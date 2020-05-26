@@ -23,9 +23,9 @@ public class GameVisualizer extends JPanel
         return timer;
     }
     
-    public GameVisualizer(RobotController robotController)
+    public GameVisualizer()
     {
-        this.robotController = robotController;
+        this.robotController = RobotController.getInstance();
 
         m_timer.schedule(new TimerTask()
         {
@@ -87,11 +87,12 @@ public class GameVisualizer extends JPanel
         double angleToTarget = angleTo(robotController.getPositionX(), robotController.getPositionY(),
                 Target.getPositionX(), Target.getPositionY());
         double angularVelocity = 0;
-        if (angleToTarget > robotController.getDirection())
+        System.out.println("angle:" + angleToTarget + " direction:" + robotController.getDirection());
+        if (angleToTarget > robotController.getDirection() + 0.01)      // accounting for direction error
         {
             angularVelocity = maxAngularVelocity;
         }
-        if (angleToTarget < robotController.getDirection())
+        if (angleToTarget < robotController.getDirection() - 0.01)      // accounting for direction error
         {
             angularVelocity = -maxAngularVelocity;
         }

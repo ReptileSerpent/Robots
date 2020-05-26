@@ -4,14 +4,38 @@ import java.awt.*;
 
 public class RobotController
 {
-    public RobotController (RobotModel robotModel, RobotView robotView)
+    private static RobotController robotController = null;
+
+    private RobotController() {}
+
+    public static RobotController getInstance()
     {
-        this.robotModel = robotModel;
-        this.robotView = robotView;
+        if (robotController == null)
+            robotController = new RobotController();
+
+        return robotController;
     }
 
     private RobotModel robotModel;
     private RobotView robotView;
+
+    public void setRobotModel(RobotModel robotModel)
+    {
+        this.robotModel = robotModel;
+    }
+    public RobotModel getRobotModel()
+    {
+        return this.robotModel;
+    }
+
+    public void setRobotView(RobotView robotView)
+    {
+        this.robotView = robotView;
+    }
+    public RobotView getRobotView()
+    {
+        return this.robotView;
+    }
 
     public double getPositionX()
     {
